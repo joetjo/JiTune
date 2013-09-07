@@ -8,9 +8,13 @@ public class JTStrings {
 	public static String menu_file = "JiTune";
 	public static String menu_exit = "Quitter";
 	public static String menu_select_account = "Selection du compte";
-	
+
+	// DATE
+	public static String title_date_selection = "Periode active";
+
 	public static String menu_view = "Affichage";
 	public static String menu_comptes = "Liste des comptes";
+	public static String menu_date_selection = "Selection de la période active";
 
 	// LOGIN
 	public static String loginMessage = "Vérification d'identité: Scanning Rétinien";
@@ -35,6 +39,7 @@ public class JTStrings {
 		"Novembre",
 		"Decembre"
 	};
+
 
 
 }

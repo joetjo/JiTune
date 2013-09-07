@@ -7,6 +7,7 @@ public class Actions {
 	public static SelectAccount selectAccount = new SelectAccount();
 	
 	public static ViewComptesListAction viewComptesList  = new ViewComptesListAction();
+	public static ViewDateSelectionAction viewDateSelection  = new ViewDateSelectionAction();
 
 	public static void initialise() {
 	}

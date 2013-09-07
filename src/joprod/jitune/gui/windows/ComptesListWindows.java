@@ -1,6 +1,7 @@
 package joprod.jitune.gui.windows;
 
 import joprod.jitune.JiTune;
+import joprod.jitune.JiTuneViews;
 import joprod.jitune.JiTuneViews.ViewIdentifier;
 import joprod.jitune.gui.panels.JtGuiAccountlist;
 import joprod.jitune.resources.JTStrings;
@@ -36,7 +37,7 @@ public class ComptesListWindows extends Window {
 			public void simpleClicSelection() {}
 			@Override
 			public void doubleClicSelection() {
-				JiTune.APP.warningMessage("Not implemented", "To be done one day or another...");
+				JiTune.APP.getAccountEditor().setAccount(list.getSelection());
 			}
 			@Override
 			public void popupMenu() {}
@@ -46,12 +47,12 @@ public class ComptesListWindows extends Window {
 
 	@Override
 	protected Point getInitialLocation(Point initialSize) {
-		return new Point(0, 0);
+		return JiTuneViews.INITIALPOS_COMPTES_LIST;
 	}
 
 	@Override
 	protected Point getInitialSize() {
-		return new Point(250, 700);
+		return JiTuneViews.INITIALSIZE_COMPTES_LIST;
 	}
 
 }

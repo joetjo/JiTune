@@ -78,6 +78,7 @@ public class JiTune extends ApplicationWindow {
 
 		Actions.selectAccount.run();
 		Actions.viewComptesList.run();
+		Actions.viewDateSelection.run();
 
 		return accountEditor;
 	}
@@ -108,6 +109,7 @@ public class JiTune extends ApplicationWindow {
 		MenuManager menuView = new MenuManager(JTStrings.menu_view);
 		menuManager.add(menuView);
 		menuView.add(Actions.viewComptesList);
+		menuView.add(Actions.viewDateSelection);
 
 		return menuManager;
 	}
@@ -170,7 +172,12 @@ public class JiTune extends ApplicationWindow {
 	 */
 	@Override
 	protected Point getInitialSize() {
-		return new Point(800, 600);
+		return JiTuneViews.INITIALSIZE_JITUNE_APP;
+	}
+
+	@Override
+	protected Point getInitialLocation(Point initialSize) {
+		return JiTuneViews.INITIALPOS_JITUNE_APP;
 	}
 
 	public void warningMessage(final String title, final String message)
