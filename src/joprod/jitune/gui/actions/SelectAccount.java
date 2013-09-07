@@ -1,7 +1,7 @@
 package joprod.jitune.gui.actions;
 
 import joprod.jitune.JiTune;
-import joprod.jitune.SelectAccountDialog;
+import joprod.jitune.gui.dialogs.SelectAccountDialog;
 import joprod.jitune.resources.JTStrings;
 
 import org.eclipse.jface.action.Action;
@@ -16,7 +16,7 @@ public class SelectAccount extends Action {
 		
 		if ( dial.getReturnCode() == Dialog.OK )
 		{
-			JiTune.APP.setActiveAccount(dial.getCompte());
+			JiTune.APP.getAccountEditor().setAccount(dial.getCompte());
 		}
 	}
 

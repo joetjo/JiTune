@@ -1,9 +1,12 @@
 package joprod.jitune;
 
-import joprod.jitune.data.Compte;
+import joprod.jitune.JiTuneViews.ViewIdentifier;
 import joprod.jitune.data.storage.Storage;
 import joprod.jitune.gui.actions.Actions;
+import joprod.jitune.gui.panels.JtGuiAccount;
 import joprod.jitune.resources.JTStrings;
+import joprod.jitune.session.Session;
+import joprod.rcp.common.login.LoginDialog;
 
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
@@ -15,36 +18,48 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
 public class JiTune extends ApplicationWindow {
 
 	public static JiTune APP;
+	public static JiTuneViews VIEWS = new JiTuneViews();
 	public static Storage STORAGE;
-
-	private Compte mActiveAccount = null;
+	public static final Session SESSION = new Session();
+	
+	private JtGuiAccount accountEditor;
 	
 	/**
 	 * Create the application window.
+	 * @param user 
 	 */
 	private JiTune() {
 		super(null);
 		APP = this;
+		VIEWS.register(ViewIdentifier.JITUNE_APP, this);
 		createActions();
 		addToolBar(SWT.FLAT | SWT.WRAP);
 		addMenuBar();
 		addStatusLine();
 		
-		// TODO Login + Selection de fichier
+		// TODO Selection de fichier de compte
 		STORAGE = new Storage();
 	}
 
 	@Override
 	public int open() {
-		if ( mActiveAccount == null )
-		{
-			Actions.selectAccount.run();
+
+		// Identification avant connexion
+		final LoginDialog dial = new LoginDialog(getShell(), JTStrings.APPNAME, JTStrings.loginMessage, STORAGE.getDefaultUser());
+		final int retcode = dial.open();
+
+		if ( retcode == LoginDialog.OK ) {
+			SESSION.setUser(dial.getUser());
+		} else {
+			shutdown();
 		}
+
 		return super.open();
 	}
 
@@ -53,35 +68,18 @@ public class JiTune extends ApplicationWindow {
 		System.exit(0);
 	}
 
-	public void setActiveAccount(Compte c)
-	{
-		if ( c == null &&
-		     mActiveAccount == null )
-		{
-			shutdown();
-		}
-		
-		if ( c != null && c != mActiveAccount ) {
-			mActiveAccount = c;
-			loadAccount();
-		}
-	}
-	
-	private void loadAccount() {
-		if ( getShell() != null )  {
-			getShell().setText("JTune - " + mActiveAccount.getName());
-		}
-	}
-
 	/**
 	 * Create contents of the application window.
 	 * @param parent
 	 */
 	@Override
 	protected Control createContents(Composite parent) {
-		Composite container = new Composite(parent, SWT.NONE);
+		accountEditor = new JtGuiAccount(parent);
 
-		return container;
+		Actions.selectAccount.run();
+		Actions.viewComptesList.run();
+
+		return accountEditor;
 	}
 
 	/**
@@ -107,6 +105,10 @@ public class JiTune extends ApplicationWindow {
 		menuFile.add(new Separator());
 		menuFile.add(Actions.exit);
 		
+		MenuManager menuView = new MenuManager(JTStrings.menu_view);
+		menuManager.add(menuView);
+		menuView.add(Actions.viewComptesList);
+
 		return menuManager;
 	}
 
@@ -135,6 +137,14 @@ public class JiTune extends ApplicationWindow {
 	 * @param args
 	 */
 	public static void main(String args[]) {
+
+	    final Display display = new Display();
+	    final Shell shell = new Shell(display);
+	    shell.setText(JTStrings.APPNAME);
+
+		shell.dispose();
+		display.dispose();
+		
 		try {
 			JiTune window = new JiTune();
 			window.setBlockOnOpen(true);
@@ -153,9 +163,6 @@ public class JiTune extends ApplicationWindow {
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
 		newShell.setText(JTStrings.APPNAME);
-		if ( mActiveAccount != null ) {
-			newShell.setText(JTStrings.APPNAME + " - " + mActiveAccount.getName());
-		}
 	}
 
 	/**
@@ -166,4 +173,15 @@ public class JiTune extends ApplicationWindow {
 		return new Point(800, 600);
 	}
 
+	public void warningMessage(final String title, final String message)
+	{
+		MessageBox messageBox = new MessageBox(getShell(), SWT.ICON_WARNING /* | SWT.ABORT | SWT.RETRY | SWT.IGNORE */);
+		messageBox.setText(title);
+		messageBox.setMessage(message);
+		messageBox.open();
+	}
+
+	public JtGuiAccount getAccountEditor() {
+		return accountEditor;
+	}
 }

@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import joprod.jitune.data.storage.PersistentData;
 
+@SuppressWarnings("rawtypes")
 public class CompteAnnuel extends PersistentData {
 	
 	private final int mAnnee;

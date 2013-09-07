@@ -5,6 +5,7 @@ import java.util.List;
 
 import joprod.jitune.data.storage.PersistentData;
 
+@SuppressWarnings("rawtypes")
 public class CompteMensuel extends PersistentData {
 
 	private final int mMois;

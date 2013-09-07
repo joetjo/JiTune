@@ -6,6 +6,8 @@ public class Actions {
 
 	public static SelectAccount selectAccount = new SelectAccount();
 	
+	public static ViewComptesListAction viewComptesList  = new ViewComptesListAction();
+
 	public static void initialise() {
 	}
 }

@@ -13,6 +13,10 @@ public class Storage {
 		mOldStorage = new StorageV2();
 	}
 
+	public String getDefaultUser() {
+		return mOldStorage.getDefaultUser();
+	}
+
 	public Comptes getComptes() {
 		if ( mCachedComptes == null )
 		{
@@ -20,6 +24,7 @@ public class Storage {
 		}
 		return mCachedComptes;
 	}
+
 	
 	
 }
