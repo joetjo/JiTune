@@ -9,8 +9,16 @@ public class JTStrings {
 	public static String menu_exit = "Quitter";
 	public static String menu_select_account = "Selection du compte";
 
+	// ERRORS
+	public static String storage_error_title = "Erreur d'accès aux données";
+	public static String storage_error_io = "erreur d'accès au disque";
+	public static String storage_error_serial = "erreur de lecture d'un bloc de données";
+	public static String storage_error_save = "erreur d'enregistrement des données";
+	
 	// DATE
 	public static String title_date_selection = "Periode active";
+	public static String date_from = " De  ";
+	public static String date_to = "  à  ";
 
 	public static String menu_view = "Affichage";
 	public static String menu_comptes = "Liste des comptes";
@@ -39,7 +47,5 @@ public class JTStrings {
 		"Novembre",
 		"Decembre"
 	};
-
-
 
 }

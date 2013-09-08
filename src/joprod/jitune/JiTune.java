@@ -2,6 +2,7 @@ package joprod.jitune;
 
 import joprod.jitune.JiTuneViews.ViewIdentifier;
 import joprod.jitune.data.storage.Storage;
+import joprod.jitune.data.storage.StorageException;
 import joprod.jitune.gui.actions.Actions;
 import joprod.jitune.gui.panels.JtGuiAccount;
 import joprod.jitune.resources.JTStrings;
@@ -44,7 +45,11 @@ public class JiTune extends ApplicationWindow {
 		addStatusLine();
 		
 		// TODO Selection de fichier de compte
-		STORAGE = new Storage();
+		try {
+			STORAGE = new Storage();
+		} catch (StorageException e) {
+			warningMessage(JTStrings.storage_error_title, e.getMessage());
+		}
 	}
 
 	@Override

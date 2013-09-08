@@ -10,17 +10,23 @@ import joetjo.jtune.jtunecore.cfg.ConfigurationException;
 import joetjo.jtune.jtunecore.storage.memory.StorageException;
 import joetjo.jtune.jtunecore.storage.xml.XmlStorage;
 import joetjo.jtune.jtunecore.storage.xml.basic.Jtune.Comptes.CompteRef;
+import joprod.jitune.JiTune;
 import joprod.jitune.data.Compte;
 import joprod.jitune.data.Comptes;
+import joprod.jitune.resources.JTStrings;
 
 /**
  * Compatibility module with JTuneV2
  */
 public class StorageV2 {
 
+	/** Database au format XML (JiTune V2) */
     private joetjo.jtune.jtunecore.Storage mStorage;
+    /** Configuration héritée de JiTune V2) */
     private Configuration mConfiguration;
-
+    /** Répertoire racine des données */
+    private File directory;
+    
     public StorageV2() {
         // Chargement de la configuration
         String cfgFile = System.getProperty("user.home") + File.separator + ".jtune.cfg";
@@ -35,13 +41,16 @@ public class StorageV2 {
         String filename = mConfiguration.getFileConfiguration().getLocalisation();
         try {
             mStorage = new XmlStorage(filename);
+            directory = new File(filename).getParentFile();
         } catch (StorageException ex) {
-            JOptionPane.showMessageDialog(null, "Failed to load account file : " + filename + " - Configuration file " + cfg.getAbsolutePath()); // TODO internationalisation
+            JiTune.APP.warningMessage(JTStrings.storage_error_title, "Failed to load account file : " + filename + " - Configuration file " + cfg.getAbsolutePath()); // TODO internationalisation
 
             ConfigurationDialog dialog = new ConfigurationDialog(null, true);
             dialog.loadFromData(mConfiguration);
             dialog.pack();
             dialog.setVisible(true);
+            
+            JiTune.APP.shutdown();
         }
 	}
 
@@ -57,6 +66,10 @@ public class StorageV2 {
 
 	public String getDefaultUser() {
 		return mConfiguration.getDefaultUser();
+	}
+
+	public File getDirectory() {
+		return directory;
 	}
 
     
