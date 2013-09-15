@@ -4,7 +4,9 @@ import joprod.jitune.JiTuneViews.ViewIdentifier;
 import joprod.jitune.data.storage.Storage;
 import joprod.jitune.data.storage.StorageException;
 import joprod.jitune.gui.actions.Actions;
+import joprod.jitune.gui.events.common.JiTuneEventBroker;
 import joprod.jitune.gui.panels.JtGuiAccount;
+import joprod.jitune.resources.JTRes;
 import joprod.jitune.resources.JTStrings;
 import joprod.jitune.session.Session;
 import joprod.rcp.common.login.LoginDialog;
@@ -25,10 +27,13 @@ import org.eclipse.swt.widgets.Shell;
 public class JiTune extends ApplicationWindow {
 
 	public static JiTune APP;
-	public static JiTuneViews VIEWS = new JiTuneViews();
 	public static Storage STORAGE;
+
+	public static JiTuneEventBroker EVENTBROKER = new JiTuneEventBroker();
+	public static JiTuneViews VIEWS = new JiTuneViews();
 	public static final Session SESSION = new Session();
 	
+	// Main panel : l'édition de compte --> pourrait changer, tention !
 	private JtGuiAccount accountEditor;
 	
 	/**
@@ -149,8 +154,7 @@ public class JiTune extends ApplicationWindow {
 	    final Shell shell = new Shell(display);
 	    shell.setText(JTStrings.APPNAME);
 
-		shell.dispose();
-		display.dispose();
+		JTRes.init(display);
 		
 		try {
 			JiTune window = new JiTune();

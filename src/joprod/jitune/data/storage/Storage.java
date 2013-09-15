@@ -1,17 +1,16 @@
 package joprod.jitune.data.storage;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.util.HashMap;
+import java.util.List;
 
 import joprod.jitune.JiTune;
+import joprod.jitune.data.Categorie;
+import joprod.jitune.data.Compte;
 import joprod.jitune.data.Comptes;
+import joprod.jitune.data.storage.common.SetupData;
 import joprod.jitune.data.storage.compatibility.StorageV2;
-import joprod.jitune.resources.JTStrings;
 
 public class Storage {
 
@@ -19,66 +18,18 @@ public class Storage {
 	private StorageV2 mOldStorage;
 	/** Setup specifique JiTune V3 */
 	private JiTuneSetup setup;
+	private HashMap<Compte, JiCompteSetup> comptesSetup = new HashMap<>();
 	
 	private Comptes mCachedComptes;
+	private List<Categorie> mCachedCategories = null;
 
 	public Storage() throws StorageException {
 		mOldStorage = new StorageV2();
 		loadSetup();
 	}
 
-	private void loadSetup() throws StorageException {
-	    FileInputStream fis = null;
-		try {
-			fis = new FileInputStream( mOldStorage.getDirectory().getAbsolutePath() 
-													   + File.separator
-													   + JiTuneSetup.FILENAME );
-		    ObjectInputStream ois = new ObjectInputStream(fis);
-		    setup = (JiTuneSetup) ois.readObject();
-		    ois.close();
-		} catch (FileNotFoundException e) {
-			// Setup absent, 1ére ouverture ? --> Le storage est ouvert donc tout est ok... creation d'un setup vide
-			setup = new JiTuneSetup();
-			setup.setDefaultValue();
-		} catch (IOException e) {
-			throw new StorageException(JTStrings.storage_error_io, e);
-		} catch (ClassNotFoundException e) {
-			throw new StorageException(JTStrings.storage_error_serial, e);
-		}
-		finally {
-			if ( fis != null ) {
-				try {
-					fis.close();
-				} catch (IOException e) {
-					// tant pis...
-				}
-			}
-			if ( setup == null ) {
-				setup = new JiTuneSetup();
-				setup.setDefaultValue();
-			}
-		}
-	}
-
 	public JiTuneSetup getSetup() {
 		return setup;
-	}
-
-	public void saveSetup() {
-	    FileOutputStream fos;
-		try {
-			fos = new FileOutputStream(mOldStorage.getDirectory().getAbsolutePath() 
-					   				+ File.separator
-					   				+ JiTuneSetup.FILENAME);
-		    ObjectOutputStream oos = new ObjectOutputStream(fos);
-		    oos.writeObject(setup);
-		    oos.flush();
-		    oos.close();
-		} catch (FileNotFoundException e) {
-			JiTune.APP.warningMessage(JTStrings.storage_error_title, JTStrings.storage_error_save);
-		} catch (IOException e) {
-			JiTune.APP.warningMessage(JTStrings.storage_error_title, JTStrings.storage_error_io);
-		}
 	}
 
 	public String getDefaultUser() {
@@ -93,7 +44,67 @@ public class Storage {
 		return mCachedComptes;
 	}
 
+	public List<Categorie> getCategories() {
+		if ( mCachedCategories == null )
+		{
+			mCachedCategories =  mOldStorage.loadCategories();
+		}
+		return mCachedCategories;
+	}
 
-	
-	
+	public JiCompteSetup getCompteSetup(Compte account) {
+		JiCompteSetup set = comptesSetup.get(account);
+		if ( set == null ) {
+			set = loadCompteSetup(account.getName());
+			if ( set.getCategories().isEmpty() ) {
+				for( Categorie c : getCategories() ) {
+					set.add(c.getName());
+				}
+				set.save();
+			}
+			comptesSetup.put(account, set);
+		}
+		return set;
+	}
+
+	private void loadSetup() {
+		String filename = mOldStorage.getDirectory().getAbsolutePath() 
+   				+ File.separator
+   				+ JiTuneSetup.FILENAME;
+
+		try {
+			setup = (JiTuneSetup) SetupData.loadData(filename);
+		} catch (StorageException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+		}
+		finally {
+			if ( setup == null ) {
+				setup = new JiTuneSetup(filename);
+				setup.setDefaultValue();
+				setup.save();
+			}
+		}
+	}
+
+	private JiCompteSetup loadCompteSetup(String id) {
+		String filename = mOldStorage.getDirectory().getAbsolutePath() 
+   				+ File.separator
+   				+ id + JiCompteSetup.FILENAME;
+		JiCompteSetup result = null;
+		try {
+			result = (JiCompteSetup) SetupData.loadData(filename);
+		} catch (StorageException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+		}
+		finally {
+			if ( result == null ) {
+				result = new JiCompteSetup(filename);
+				result.save();
+			}
+		}
+		return result;
+	}
+
 }

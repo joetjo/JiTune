@@ -1,6 +1,8 @@
 package joprod.jitune.data.storage.compatibility;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -11,6 +13,7 @@ import joetjo.jtune.jtunecore.storage.memory.StorageException;
 import joetjo.jtune.jtunecore.storage.xml.XmlStorage;
 import joetjo.jtune.jtunecore.storage.xml.basic.Jtune.Comptes.CompteRef;
 import joprod.jitune.JiTune;
+import joprod.jitune.data.Categorie;
 import joprod.jitune.data.Compte;
 import joprod.jitune.data.Comptes;
 import joprod.jitune.resources.JTStrings;
@@ -64,6 +67,16 @@ public class StorageV2 {
 		return cpts;
 	}
 
+	public List<Categorie> loadCategories() {
+		List<Categorie> categories = new ArrayList<Categorie>();
+
+		joetjo.jtune.jtunecore.storage.xml.basic.Jtune.Categories cats = mStorage.getCategories();
+		for ( joetjo.jtune.jtunecore.storage.xml.basic.Jtune.Categories.Category c : cats.getCategory() ) {
+			categories.add(new Categorie(c));
+		}
+		return categories;
+	}
+
 	public String getDefaultUser() {
 		return mConfiguration.getDefaultUser();
 	}
@@ -71,6 +84,7 @@ public class StorageV2 {
 	public File getDirectory() {
 		return directory;
 	}
+
 
     
 }

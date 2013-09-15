@@ -69,7 +69,7 @@ public class JtGuiDateSelection extends Composite {
 
 	private void fromUpdated() {
 		JiTune.STORAGE.getSetup().setBeginActivePeriod(from.getYear(), from.getMonth(), from.getDay());
-		JiTune.STORAGE.saveSetup();
+		JiTune.STORAGE.getSetup().save();;
 		periodUpdated();
 	}
 

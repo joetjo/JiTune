@@ -1,13 +1,14 @@
 package joprod.jitune.data.storage;
 
-import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.util.Calendar;
 import java.util.Date;
 
-public class JiTuneSetup implements Externalizable {
+import joprod.jitune.data.storage.common.SetupData;
+
+public class JiTuneSetup extends SetupData {
 
 	private static final long serialVersionUID = 1565L;
 
@@ -16,6 +17,13 @@ public class JiTuneSetup implements Externalizable {
 
 	private Date beginActivePeriod;
 	
+	public JiTuneSetup() {
+	}
+
+	public JiTuneSetup(String filename) {
+		super(filename);
+	}
+
 	public void setDefaultValue() {
 		beginActivePeriod = new Date();
 	}

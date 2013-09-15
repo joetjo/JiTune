@@ -48,4 +48,6 @@ public class JTStrings {
 		"Decembre"
 	};
 
+	public static String table_title_category = "Catégorie";
+	public static String table_title_total    = "Total";
 }
