@@ -15,6 +15,7 @@ public class JiTuneSetup extends SetupData {
 	static final String FILENAME = "jituneSetup.dbj";
 	static final int    VERSION = 1;
 
+	private int  activeYear;
 	private Date beginActivePeriod;
 	
 	public JiTuneSetup() {
@@ -25,7 +26,11 @@ public class JiTuneSetup extends SetupData {
 	}
 
 	public void setDefaultValue() {
-		beginActivePeriod = new Date();
+		Calendar cal = Calendar.getInstance();
+		activeYear = cal.get(Calendar.YEAR);
+		cal.set(Calendar.MONTH, 0);
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		beginActivePeriod = cal.getTime();
 	}
 	
 	@Override
@@ -34,6 +39,7 @@ public class JiTuneSetup extends SetupData {
 		int version = in.readInt();
 		switch ( version ) {
 		case VERSION:
+			activeYear = in.readInt();
 			beginActivePeriod = (Date) in.readObject();
 		}
 	}
@@ -41,7 +47,16 @@ public class JiTuneSetup extends SetupData {
 	@Override
 	public void writeExternal(ObjectOutput out) throws IOException {
 	      out.writeInt(VERSION);
+	      out.writeInt(activeYear);
 	      out.writeObject(beginActivePeriod);
+	}
+
+	public int getActiveYear() {
+		return activeYear;
+	}
+
+	public void setActiveYear(int activeYear) {
+		this.activeYear = activeYear;
 	}
 
 	public Date getBeginActivePeriod() {

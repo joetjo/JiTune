@@ -1,11 +1,17 @@
 package joprod.jitune.data;
 
+import java.util.Date;
 import java.util.HashMap;
 
+import com.ibm.icu.util.Calendar;
+
+import joetjo.jtune.jtunecore.CompteHelper;
+import joetjo.jtune.jtunecore.OperationHelper;
 import joprod.jitune.data.storage.PersistentData;
+import joprod.jitune.data.storage.StorageException;
 import joprod.jitune.resources.JTStrings;
 
-public class Compte extends PersistentData<joetjo.jtune.jtunecore.storage.xml.basic.Jtune.Comptes.CompteRef> {
+public class Compte extends PersistentData<CompteHelper> {
 
 	public static final int MONTH_COUNT = JTStrings.mois.length; 
 
@@ -14,13 +20,13 @@ public class Compte extends PersistentData<joetjo.jtune.jtunecore.storage.xml.ba
 	 */
 	private final HashMap<Integer, CompteAnnuel> mAnnees;
 
-	public Compte(joetjo.jtune.jtunecore.storage.xml.basic.Jtune.Comptes.CompteRef ref) {
+	public Compte(CompteHelper ref) {
 		super(ref);
 		mAnnees = new HashMap<Integer, CompteAnnuel>();
 	}
 
 	public String getName() {
-		return data().getName();
+		return data().getCompte().getName();
 	}
 
 	@Override
@@ -28,5 +34,23 @@ public class Compte extends PersistentData<joetjo.jtune.jtunecore.storage.xml.ba
 		return getName();
 	}
 
+	@Override
+	public void load() throws StorageException {
+		mAnnees.clear();
+		for ( joetjo.jtune.jtunecore.storage.xml.compte.Compte.Operation op : data().getCompte().getOperation() ) {
+			final OperationHelper opH = new OperationHelper(data(), op);
+			final Date date  = opH.getDate();
+			Calendar.getInstance().setTime(date);
+			final int year = Calendar.getInstance().get(Calendar.YEAR);
+			final int month = Calendar.getInstance().get(Calendar.MONTH);
+			CompteAnnuel cptA = mAnnees.get(year);
+			if ( cptA == null ) {
+				cptA = new CompteAnnuel(this, year);
+				mAnnees.put(year, cptA);
+			}
+			cptA.add(month, opH);
+		}
+		markLoaded();
+	}
 	
 }

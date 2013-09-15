@@ -17,6 +17,7 @@ public class JTStrings {
 	
 	// DATE
 	public static String title_date_selection = "Periode active";
+	public static String date_year = "Année active : ";
 	public static String date_from = " De  ";
 	public static String date_to = "  à  ";
 

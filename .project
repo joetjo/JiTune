@@ -21,6 +21,11 @@
 			<location>D:/Documents/JTune</location>
 		</link>
 		<link>
+			<name>JTune database</name>
+			<type>2</type>
+			<location>D:/Documents/JTune</location>
+		</link>
+		<link>
 			<name>jtunev2-app</name>
 			<type>2</type>
 			<location>D:/JoetjoProdDev/JiTune/joprod.jtune.app</location>

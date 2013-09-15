@@ -3,7 +3,9 @@ package joprod.jitune.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import joetjo.jtune.jtunecore.OperationHelper;
 import joprod.jitune.data.storage.PersistentData;
+import joprod.jitune.data.storage.StorageException;
 
 @SuppressWarnings("rawtypes")
 public class CompteMensuel extends PersistentData {
@@ -17,5 +19,14 @@ public class CompteMensuel extends PersistentData {
 		mOperations = new ArrayList<Operation>();
 	}
 
+	public void add(OperationHelper opH) {
+		markLoaded();
+		mOperations.add(new Operation(opH));
+	}
+
+	@Override
+	public void load() throws StorageException {
+		// Chargé lors du load de Compte.
+	}
 	
 }

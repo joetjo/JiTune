@@ -9,4 +9,8 @@ public class StorageException extends Exception {
 		super(message, e);
 	}
 
+	public StorageException(String message) {
+		super(message);
+	}
+
 }

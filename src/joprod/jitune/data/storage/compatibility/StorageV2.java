@@ -58,13 +58,7 @@ public class StorageV2 {
 	}
 
 	public Comptes loadComptes() {
-		joetjo.jtune.jtunecore.storage.xml.basic.Jtune.Comptes cpt = mStorage.getComptesHelper().getComptes().getComptes();
-
-		Comptes cpts = new Comptes();
-		for ( CompteRef ref : cpt.getCompteRef() ) {
-			cpts.add(new Compte(ref));
-		}
-		return cpts;
+		return new Comptes(mStorage.getComptesHelper());
 	}
 
 	public List<Categorie> loadCategories() {

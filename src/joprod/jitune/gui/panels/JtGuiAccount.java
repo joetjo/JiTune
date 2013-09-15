@@ -6,6 +6,7 @@ import java.util.List;
 import joprod.jitune.JiTune;
 import joprod.jitune.data.Compte;
 import joprod.jitune.data.storage.JiCompteSetup;
+import joprod.jitune.data.storage.StorageException;
 import joprod.jitune.gui.panels.table.AccountContentProvider;
 import joprod.jitune.gui.panels.table.LineTableAcountView;
 import joprod.jitune.resources.JTRes;
@@ -104,6 +105,13 @@ public class JtGuiAccount extends Composite {
 		
 		if ( c != null && c != account ) {
 			account = c;
+			if ( ! c.isLoaded() ) {
+				try {
+					c.load();
+				} catch (StorageException e) {
+					JiTune.APP.warningMessage("Erreur de chargement", e.getMessage());
+				}
+			}
 			loadAccount();
 		}
 	}

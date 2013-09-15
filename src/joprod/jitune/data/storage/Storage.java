@@ -40,6 +40,11 @@ public class Storage {
 		if ( mCachedComptes == null )
 		{
 			mCachedComptes =  mOldStorage.loadComptes();
+			try {
+				mCachedComptes.load();
+			} catch (StorageException e) {
+				JiTune.APP.warningMessage("Erreur de chargement", e.getMessage());
+			}
 		}
 		return mCachedComptes;
 	}
