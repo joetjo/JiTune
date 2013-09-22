@@ -7,6 +7,9 @@ import joprod.jitune.JiTune;
 import joprod.jitune.data.Compte;
 import joprod.jitune.data.storage.JiCompteSetup;
 import joprod.jitune.data.storage.StorageException;
+import joprod.jitune.gui.events.JiTuneEvent;
+import joprod.jitune.gui.events.JiTuneEventListenener;
+import joprod.jitune.gui.events.JiTuneSubscription;
 import joprod.jitune.gui.panels.table.AccountContentProvider;
 import joprod.jitune.gui.panels.table.LineTableAcountView;
 import joprod.jitune.resources.JTRes;
@@ -28,12 +31,25 @@ public class JtGuiAccount extends Composite {
 	private TableViewer tableView;
 	private List<LineTableAcountView> content;
 	
+	final private JiTuneSubscription dateListener;
+	
 	public JtGuiAccount(Composite parent) {
 		super(parent, SWT.None);
 		
 		create();
+		
+		dateListener = new JiTuneSubscription(JiTuneEvent.GLOBAL_DATE_UPDATED, new JiTuneEventListenener() {
+			@Override
+			public void eventRaised(JiTuneEvent evt) {
+				dateUpdated();
+			}
+		});
 	}
 	
+	final private void close() {
+		dateListener.unsubscribe();
+	}
+
 	final private void create() {
 		setBackground(JTRes.yellow);
 	    setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -95,6 +111,10 @@ public class JtGuiAccount extends Composite {
 		});
 	}
 
+	private void dateUpdated() {
+		loadAccount();
+	}
+
 	public void setAccount(Compte c)
 	{
 		if ( c == null &&
@@ -122,11 +142,16 @@ public class JtGuiAccount extends Composite {
 			JiTune.APP.setStatus(JiTune.SESSION.getUser() + " / " + account.getName());
 		}
 		
+		LineTableAcountView totalLine = new LineTableAcountView(JTStrings.table_title_total);
+		final int year = JiTune.STORAGE.getSetup().getActiveYear();
 		content = new ArrayList<LineTableAcountView>();
 		JiCompteSetup setup = JiTune.STORAGE.getCompteSetup(account);
 		for ( String s : setup.getCategories()) {
-			content.add(new LineTableAcountView(s));
+			LineTableAcountView line = new LineTableAcountView(s, totalLine);
+			content.add(line);
+			line.load(account.getYear(year));
 		}
+		content.add(totalLine);
 		tableView.setInput(content); 
 	}
 

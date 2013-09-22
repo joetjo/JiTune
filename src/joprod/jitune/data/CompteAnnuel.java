@@ -2,8 +2,6 @@ package joprod.jitune.data;
 
 import java.util.HashMap;
 
-import com.ibm.icu.util.Calendar;
-
 import joetjo.jtune.jtunecore.OperationHelper;
 import joprod.jitune.data.storage.PersistentData;
 import joprod.jitune.data.storage.StorageException;
@@ -36,6 +34,10 @@ public class CompteAnnuel extends PersistentData {
 	@Override
 	public void load() throws StorageException {
 		// Chargé lors du load de Compte.
+	}
+
+	public CompteMensuel getMonth(int m) {
+		return mMois.get(m);
 	}
 
 	

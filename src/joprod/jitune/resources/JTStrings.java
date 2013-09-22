@@ -1,8 +1,14 @@
 package joprod.jitune.resources;
 
+import java.text.DecimalFormat;
+
 public class JTStrings {
 
+	public static final java.text.DecimalFormat AMOUNT_FORMAT = new DecimalFormat("0.00");
+	
 	public static final String APPNAME = "JiTune New Generation";
+
+	public static final String DEVISE = "€";
 
 	// MENU
 	public static String menu_file = "JiTune";
@@ -51,4 +57,5 @@ public class JTStrings {
 
 	public static String table_title_category = "Catégorie";
 	public static String table_title_total    = "Total";
+
 }

@@ -15,5 +15,26 @@ public class Operation extends PersistentData<OperationHelper> {
 		// Pas de fiston, rien a faire ici
 		markLoaded();
 	}
+
+	public boolean isCategorie(String category) {
+		return    category != null
+			   && category.equals(data().getOperation().getCategorie());
+	}
+
+	public double getMontant() {
+		return data().getOperation().getMontant();
+	}
+
+	public boolean isDebit() {
+		return data().isDebit();
+	}
 	
+	public boolean isCredit() {
+		return data().isCredit();
+	}
+
+	public boolean isVirement() {
+		return data().isVirement();
+	}
+
 }

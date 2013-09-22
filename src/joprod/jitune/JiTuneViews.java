@@ -8,7 +8,7 @@ import org.eclipse.swt.graphics.Point;
 
 public class JiTuneViews {
 
-	public static final Point INITIALSIZE_JITUNE_APP     = new Point(1200, 800);
+	public static final Point INITIALSIZE_JITUNE_APP     = new Point(1200, 900);
 	public static final Point INITIALSIZE_DATE_SELECTION = new Point(INITIALSIZE_JITUNE_APP.x, 80);
 	public static final Point INITIALSIZE_COMPTES_LIST   = new Point(250, INITIALSIZE_JITUNE_APP.y + INITIALSIZE_DATE_SELECTION.y );
 

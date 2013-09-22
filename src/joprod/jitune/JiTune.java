@@ -4,7 +4,7 @@ import joprod.jitune.JiTuneViews.ViewIdentifier;
 import joprod.jitune.data.storage.Storage;
 import joprod.jitune.data.storage.StorageException;
 import joprod.jitune.gui.actions.Actions;
-import joprod.jitune.gui.events.common.JiTuneEventBroker;
+import joprod.jitune.gui.events.JiTuneEventBroker;
 import joprod.jitune.gui.panels.JtGuiAccount;
 import joprod.jitune.resources.JTRes;
 import joprod.jitune.resources.JTStrings;

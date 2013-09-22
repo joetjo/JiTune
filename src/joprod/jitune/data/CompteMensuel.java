@@ -28,5 +28,15 @@ public class CompteMensuel extends PersistentData {
 	public void load() throws StorageException {
 		// Chargé lors du load de Compte.
 	}
+
+	public List<Operation> getOperations(String category) {
+		List<Operation> result = new ArrayList<Operation>();
+		for( Operation op : mOperations ) {
+			if ( op.isCategorie(category) ) {
+				result.add(op);
+			}
+		}
+		return result;
+	}
 	
 }

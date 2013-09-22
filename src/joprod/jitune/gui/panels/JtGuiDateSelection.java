@@ -1,9 +1,7 @@
 package joprod.jitune.gui.panels;
 
-import java.util.Calendar;
-import java.util.Date;
-
 import joprod.jitune.JiTune;
+import joprod.jitune.gui.events.JiTuneEvent;
 import joprod.jitune.resources.JTStrings;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -114,7 +112,9 @@ public class JtGuiDateSelection extends Composite {
 
 		JiTune.STORAGE.getSetup().setActiveYear(yearSelected);
 		JiTune.STORAGE.getSetup().setBeginActivePeriod(from.getYear(), from.getMonth(), from.getDay());
-		JiTune.STORAGE.getSetup().save();;
+		JiTune.STORAGE.getSetup().save();
+		
+		JiTune.EVENTBROKER.notify(JiTuneEvent.GLOBAL_DATE_UPDATED);
 	}
 
 	private void fromUpdated() {

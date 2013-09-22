@@ -1,9 +1,9 @@
 package joprod.jitune.data;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
-
-import com.ibm.icu.util.Calendar;
 
 import joetjo.jtune.jtunecore.CompteHelper;
 import joetjo.jtune.jtunecore.OperationHelper;
@@ -37,12 +37,13 @@ public class Compte extends PersistentData<CompteHelper> {
 	@Override
 	public void load() throws StorageException {
 		mAnnees.clear();
+		Calendar cal = new GregorianCalendar();
 		for ( joetjo.jtune.jtunecore.storage.xml.compte.Compte.Operation op : data().getCompte().getOperation() ) {
 			final OperationHelper opH = new OperationHelper(data(), op);
 			final Date date  = opH.getDate();
-			Calendar.getInstance().setTime(date);
-			final int year = Calendar.getInstance().get(Calendar.YEAR);
-			final int month = Calendar.getInstance().get(Calendar.MONTH);
+			cal.setTime(date);
+			final int year = cal.get(Calendar.YEAR);
+			final int month = cal.get(Calendar.MONTH);
 			CompteAnnuel cptA = mAnnees.get(year);
 			if ( cptA == null ) {
 				cptA = new CompteAnnuel(this, year);
@@ -51,6 +52,10 @@ public class Compte extends PersistentData<CompteHelper> {
 			cptA.add(month, opH);
 		}
 		markLoaded();
+	}
+
+	public CompteAnnuel getYear(int activeYear) {
+		return mAnnees.get(activeYear);
 	}
 	
 }
