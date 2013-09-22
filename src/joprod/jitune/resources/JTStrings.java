@@ -1,10 +1,12 @@
 package joprod.jitune.resources;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 
 public class JTStrings {
 
-	public static final java.text.DecimalFormat AMOUNT_FORMAT = new DecimalFormat("0.00");
+	public static final SimpleDateFormat DATE_DAY_FORMAT = new SimpleDateFormat("dd");
+	public static final DecimalFormat AMOUNT_FORMAT = new DecimalFormat("0.00");
 	
 	public static final String APPNAME = "JiTune New Generation";
 

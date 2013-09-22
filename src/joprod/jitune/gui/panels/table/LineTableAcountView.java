@@ -31,7 +31,7 @@ public class LineTableAcountView {
 	}
 
 	public String getMonth(int m) {
-		if ( parent != null ) {
+		if ( ! isCumul() ) {
 			return JTStrings.AMOUNT_FORMAT.format(data[m]);
 		} else {
 			return JTStrings.AMOUNT_FORMAT.format(data[m]) + " " + JTStrings.DEVISE;
@@ -40,6 +40,10 @@ public class LineTableAcountView {
 
 	public String getTotal() {
 		return JTStrings.AMOUNT_FORMAT.format(total) + " " + JTStrings.DEVISE;
+	}
+
+	private boolean isCumul() {
+		return parent == null;
 	}
 
 	public void load(CompteAnnuel cptA) {
@@ -61,5 +65,29 @@ public class LineTableAcountView {
 		}
 	}
 
+	public String getTooltip(int m) {
+		StringBuilder st = new StringBuilder();
+		if ( ! isCumul() ) {
+			boolean first = true;
+			for ( Operation op : rawData[m]) {
+				if ( ! first ) {
+					st.append("\n");
+				} else {
+					first = false;
+				}
+				st.append(JTStrings.DATE_DAY_FORMAT.format(op.getDate()));
+				st.append(" : ");
+				st.append(JTStrings.AMOUNT_FORMAT.format(op.getMontant()));
+				st.append(" ");
+				st.append(JTStrings.DEVISE);
+				st.append(" - ");
+				st.append(op.getTier());
+				st.append(" (");
+				st.append(op.getLabel());
+				st.append(")");
+			}
+		}
+		return st.toString();
+	}
 	
 }

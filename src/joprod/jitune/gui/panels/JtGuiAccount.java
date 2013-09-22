@@ -16,9 +16,12 @@ import joprod.jitune.resources.JTRes;
 import joprod.jitune.resources.JTStrings;
 
 import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.window.ToolTip;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
@@ -59,6 +62,9 @@ public class JtGuiAccount extends Composite {
 	    tableView = new TableViewer(this, SWT.MULTI | SWT.H_SCROLL
 	          | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
 	    tableView.setContentProvider(new AccountContentProvider());
+
+	    // Mise en place des tooltip pour la liste des opérations par cellules.
+	    ColumnViewerToolTipSupport.enableFor(tableView, ToolTip.NO_RECREATE); 
 	    
 	    // Create the columns 
 	    // Not yet implemented
@@ -95,7 +101,24 @@ public class JtGuiAccount extends Composite {
 				    final LineTableAcountView p = (LineTableAcountView) element;
 				    return p.getMonth(month);
 				  }
-				});
+				  @Override
+				  public String getToolTipText(Object element) {
+					    final LineTableAcountView p = (LineTableAcountView) element;
+					    return p.getTooltip(month);
+				  }
+				  @Override
+				  public Point getToolTipShift(Object object) {
+				    return new Point(5, 5);
+				  }
+				  @Override
+				  public int getToolTipDisplayDelayTime(Object object) {
+				    return 100; // msec
+				  }
+				  @Override
+				  public int getToolTipTimeDisplayed(Object object) {
+				    return -1; // msec
+				  }
+			});
 		}
 
 		TableViewerColumn colTotal = new TableViewerColumn(tableView, SWT.NONE);
