@@ -8,6 +8,8 @@ public class Actions {
 	
 	public static ViewComptesListAction viewComptesList  = new ViewComptesListAction();
 	public static ViewDateSelectionAction viewDateSelection  = new ViewDateSelectionAction();
+	public static ViewAccountCheckAction viewAccountCheck  = new ViewAccountCheckAction();
+	public static ViewPropertyAction viewProperty  = new ViewPropertyAction();
 
 	public static void initialise() {
 	}

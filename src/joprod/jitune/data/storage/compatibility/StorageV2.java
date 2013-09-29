@@ -11,10 +11,8 @@ import joetjo.jtune.jtunecore.cfg.Configuration;
 import joetjo.jtune.jtunecore.cfg.ConfigurationException;
 import joetjo.jtune.jtunecore.storage.memory.StorageException;
 import joetjo.jtune.jtunecore.storage.xml.XmlStorage;
-import joetjo.jtune.jtunecore.storage.xml.basic.Jtune.Comptes.CompteRef;
 import joprod.jitune.JiTune;
 import joprod.jitune.data.Categorie;
-import joprod.jitune.data.Compte;
 import joprod.jitune.data.Comptes;
 import joprod.jitune.resources.JTStrings;
 

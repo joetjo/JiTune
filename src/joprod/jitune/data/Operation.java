@@ -51,4 +51,8 @@ public class Operation extends PersistentData<OperationHelper> {
 		return data().getOperation().getLabel();
 	}
 
+	public String getCategorie() {
+		return data().getOperation().getCategorie();
+	}
+
 }

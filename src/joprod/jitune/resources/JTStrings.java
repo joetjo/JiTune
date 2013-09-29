@@ -60,4 +60,17 @@ public class JTStrings {
 	public static String table_title_category = "Catégorie";
 	public static String table_title_total    = "Total";
 
+	public static String title_account_check  = "Equilibrage";
+	public static String menu_account_check   = "Equilibrage";
+
+	public static String title_property       = "Info détaillée"  ;
+	public static String menu_property        = "Info détaillée";
+
+	public static String new_operation		  = "Déclarer";
+	public static String new_debit		  	  = "Débit";
+	public static String new_credit		  	  = "Crédit";
+	public static String new_virement		  = "Virement";
+
+	public static String new_operation_from_previous = "Copier";
+
 }

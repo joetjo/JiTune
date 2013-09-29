@@ -89,6 +89,8 @@ public class JiTune extends ApplicationWindow {
 		Actions.selectAccount.run();
 		Actions.viewComptesList.run();
 		Actions.viewDateSelection.run();
+		Actions.viewAccountCheck.run();
+		Actions.viewProperty.run();
 
 		return accountEditor;
 	}
@@ -120,6 +122,8 @@ public class JiTune extends ApplicationWindow {
 		menuManager.add(menuView);
 		menuView.add(Actions.viewComptesList);
 		menuView.add(Actions.viewDateSelection);
+		menuView.add(Actions.viewAccountCheck);
+		menuView.add(Actions.viewProperty);
 
 		return menuManager;
 	}
