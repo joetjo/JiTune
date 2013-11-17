@@ -71,6 +71,23 @@ public class JTStrings {
 	public static String new_credit		  	  = "Crédit";
 	public static String new_virement		  = "Virement";
 
-	public static String new_operation_from_previous = "Copier";
+	public static String new_operation_from_previous = "Déclarer par copie";
+	public static String edit_operation    = "Editer";
+	public static String title_edit_operation = "Editer operation";
+	public static String operation_debit = "Edition d'un débit";
+	public static String operation_credit = "Edition d'un crédit";
+	public static String operation_virement = "Edition d'un virement";
+	public static String new_operation_title ="Déclaration nouvelle opération";
+	public static String edit_operation_title ="Modification d'une opération";
+
+	public static String label_date = "Date: ";
+	public static String label_tier = "Tier: ";
+	public static String label_category = "Catégorie: ";
+	public static String label_type_paiment ="Moyen de paiment: ";
+	public static String label_description = "Description: ";
+	public static String label_numero = "Numéro :";
+	public static String label_montant = "Montant :";
+	public static String label_compteAssociated = "Compte associé: ";
+	public static String euro = " € ";
 
 }

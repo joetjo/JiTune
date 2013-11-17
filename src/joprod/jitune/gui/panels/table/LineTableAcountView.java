@@ -2,9 +2,12 @@ package joprod.jitune.gui.panels.table;
 
 import java.util.List;
 
+import org.eclipse.jface.action.Action;
+
 import joprod.jitune.data.CompteAnnuel;
 import joprod.jitune.data.CompteMensuel;
 import joprod.jitune.data.Operation;
+import joprod.jitune.gui.actions.EditAction;
 import joprod.jitune.resources.JTStrings;
 
 
@@ -90,4 +93,12 @@ public class LineTableAcountView {
 		return st.toString();
 	}
 	
+	public Action[] buildContextualEditMenu(int month) {
+		Action actions[] = new Action[rawData[month].size()];
+		int idx = 0;
+		for ( Operation op : rawData[month]) {
+			actions[idx++] = new EditAction(op);
+		}
+		return actions;
+	}
 }

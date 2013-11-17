@@ -1,7 +1,5 @@
 package joprod.jitune.gui.panels;
 
-import java.awt.MouseInfo;
-import java.awt.PointerInfo;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +9,6 @@ import joprod.jitune.data.CompteMensuel;
 import joprod.jitune.data.Operation;
 import joprod.jitune.data.storage.JiCompteSetup;
 import joprod.jitune.data.storage.StorageException;
-import joprod.jitune.gui.actions.Actions;
 import joprod.jitune.gui.actions.NewCredit;
 import joprod.jitune.gui.actions.NewDebit;
 import joprod.jitune.gui.actions.NewVirement;
@@ -29,17 +26,13 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.window.ToolTip;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
@@ -48,9 +41,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 public class JtGuiAccount extends Composite {
@@ -165,6 +156,12 @@ public class JtGuiAccount extends Composite {
 							copyMenu.add(act);
 						}
 						manager.add(copyMenu);
+
+						MenuManager editMenu = new MenuManager(JTStrings.edit_operation);
+						for ( Action act : selectedLine.buildContextualEditMenu(month) ) {
+							editMenu.add(act);
+						}
+						manager.add(editMenu);
 					}
 				}
 			}

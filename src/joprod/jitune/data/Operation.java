@@ -27,6 +27,16 @@ public class Operation extends PersistentData<OperationHelper> {
 		return data().getOperation().getMontant();
 	}
 
+	public OperationType getType() {
+		if ( isDebit() ) {
+			return OperationType.DEBIT;
+		} else if ( isCredit()) {
+			return OperationType.CREDIT;
+		} else {
+			return OperationType.VIREMENT;
+		}
+	}
+
 	public boolean isDebit() {
 		return data().isDebit();
 	}
