@@ -3,7 +3,6 @@ package joprod.jitune.gui.dialogs;
 import joprod.jitune.data.Operation;
 import joprod.jitune.data.OperationType;
 import joprod.jitune.gui.panels.JtGuiOperation;
-import joprod.jitune.resources.JTRes;
 import joprod.jitune.resources.JTStrings;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -19,6 +18,8 @@ public class EditOperationDialog extends TitleAreaDialog {
 
 	private OperationType type      = null;
 	private Operation 	  operation = null;
+	
+	private JtGuiOperation opPanel = null;
 	
 	/**
 	 * Create the dialog.
@@ -75,10 +76,14 @@ public class EditOperationDialog extends TitleAreaDialog {
 	protected Control createDialogArea(Composite parent) {
 		Composite area = (Composite) super.createDialogArea(parent);
 		
-		JtGuiOperation panel = new JtGuiOperation(area);
+		opPanel = new JtGuiOperation(area);
 		GridData gd = new GridData(GridData.FILL, GridData.FILL, true, true );
-		panel.setLayoutData(gd);
-		return panel;
+		opPanel.setLayoutData(gd);
+
+		if ( operation != null ) {
+			opPanel.load(operation);
+		}
+		return opPanel;
 	}
 
 	/**
@@ -101,6 +106,8 @@ public class EditOperationDialog extends TitleAreaDialog {
 
 	@Override
 	protected void okPressed() {
+		opPanel.save(operation);
+
 		super.okPressed();
 	}
 

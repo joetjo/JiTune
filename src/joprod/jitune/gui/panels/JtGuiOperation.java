@@ -1,7 +1,9 @@
 package joprod.jitune.gui.panels;
 
 import joprod.jitune.data.Operation;
-import joprod.jitune.resources.JTRes;
+import joprod.jitune.data.OperationType;
+import joprod.jitune.data.common.Date;
+import joprod.jitune.gui.panels.common.MontantEditor;
 import joprod.jitune.resources.JTStrings;
 
 import org.eclipse.swt.SWT;
@@ -11,13 +13,10 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DateTime;
-import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 
 public class JtGuiOperation extends Composite {
 
-	private Operation operation;
-	
 	// TODO editeur d'opération
 	// Solde rapproché
 	// Solde validé
@@ -39,7 +38,7 @@ public class JtGuiOperation extends Composite {
 	private Text description;
 
 	// Montant
-	private Spinner montant;
+	private MontantEditor montant;
 	
 	// Compte associé pour les virements et numéro de virement
 	private CLabel labelCompte;
@@ -112,7 +111,7 @@ public class JtGuiOperation extends Composite {
 		
 		label = new CLabel(this, SWT.NONE);
 		label.setText(JTStrings.label_montant);
-		montant = new Spinner(this, SWT.BORDER);
+		montant = new MontantEditor(this, SWT.NONE);
 		montant.setLayoutData(gdGrab);
 		label = new CLabel(this, SWT.NONE);
 		label.setText(JTStrings.euro);
@@ -124,6 +123,42 @@ public class JtGuiOperation extends Composite {
 		compteAssociated = new Combo(this, SWT.NONE);
 		compteAssociated.setLayoutData(gdHzSpan4);
 		compteAssociated.setVisible(false);
+	}
+
+	public void load(final Operation operation) {
+		date.setDate(operation.getDate().getYear(),
+				operation.getDate().getMonth(),
+				operation.getDate().getDay());
+		tier.setText(operation.getTier());
+		category.setText(operation.getCategorie());
+		type.setText(operation.getType().name());
+		type.setEnabled(false);
+		description.setText(operation.getLabel());
+		montant.setValue(operation.getMontant());
+		if ( operation.getAssociatedCompte() != null ) {
+			compteAssociated.setText(operation.getAssociatedCompte());
+		} else {
+			compteAssociated.setText("");
+		}
+		labelNumero.setText(operation.getNumero());
+	}
+
+	public Operation save(final Operation operation) {
+		Operation result = operation;
+		if ( operation == null )
+		{
+			throw new RuntimeException("Creation operation non implemented :-/");
+		}
+		result.setDate(new Date(date.getYear(), date.getMonth(), date.getDay()));
+		result.setTier(tier.getText());
+		result.setCategorie(category.getText());
+		result.setLabel(description.getText());
+		result.setMontant(montant.getValue());
+		if ( ! compteAssociated.getText().isEmpty() ) {
+			throw new RuntimeException("Compte associé non supporté pour l'instant :-/");
+		}
+		result.setNumero(numero.getText());
+		return result;
 	}
 
 }
